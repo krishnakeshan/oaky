@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">Oaky</string>
+
+    <string name="main_activity_heading">Welcome to Oaky</string>
+    <string name="main_activity_record_button_start_text">Record</string>
+    <string name="main_activity_record_button_stop_text">Stop</string>
+    <string name="main_activity_play_button_start_text">Play Recording</string>
+    <string name="main_activity_play_button_stop_text">Stop Playback</string>
+</resources>
