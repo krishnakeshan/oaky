@@ -9,21 +9,35 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
+import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.ml.common.modeldownload.FirebaseModelDownloadConditions;
+import com.google.firebase.ml.common.modeldownload.FirebaseModelManager;
+import com.google.firebase.ml.custom.FirebaseCustomRemoteModel;
+
+import org.tensorflow.lite.Interpreter;
+
+import java.io.File;
 import java.io.IOException;
 import java.util.Objects;
 
 public class MainActivity extends AppCompatActivity {
     // Properties
+    private static String genres[] = {"blues", "classical", "country", "disco", "hiphop", "jazz", "metal", "pop", "reggae", "rock"};
+
     private MediaRecorder mediaRecorder;
     private MediaPlayer mediaPlayer;
     private static String tempAudioFileName;
     private boolean isRecording = false;
     private boolean isPlaying = false;
+    private Interpreter interpreter;
 
     // Views
     Button recordButton;
     Button playButton;
+    TextView genreTextView;
 
     // Methods
     @Override
@@ -31,9 +45,13 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        // start loading model
+        loadModel();
+
         // setup widgets
         recordButton = findViewById(R.id.activity_main_record_button);
         playButton = findViewById(R.id.activity_main_play_button);
+        genreTextView = findViewById(R.id.activity_main_genre_text_view);
         recordButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -61,6 +79,39 @@ public class MainActivity extends AppCompatActivity {
                     isPlaying = true;
                     playButton.setText(R.string.main_activity_play_button_stop_text);
                 }
+            }
+        });
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        // hide system UI
+        hideSystemUI();
+    }
+
+    void hideSystemUI() {
+        View decorView = getWindow().getDecorView();
+        int uiOptions = View.SYSTEM_UI_FLAG_FULLSCREEN;
+        decorView.setSystemUiVisibility(uiOptions);
+    }
+
+    void loadModel() {
+        final FirebaseCustomRemoteModel model = new FirebaseCustomRemoteModel.Builder("Song-Genre-Recogniser").build();
+        FirebaseModelDownloadConditions conditions = new FirebaseModelDownloadConditions.Builder().build();
+        FirebaseModelManager.getInstance().download(model, conditions).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void aVoid) {
+                FirebaseModelManager.getInstance().getLatestModelFile(model).addOnSuccessListener(new OnSuccessListener<File>() {
+                    @Override
+                    public void onSuccess(File file) {
+                        if (file != null) {
+                            interpreter = new Interpreter(file);
+                            Toast.makeText(MainActivity.this, "Model Loaded", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
             }
         });
     }
