@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "220061954768",
+    "firebase_url": "https://oaky-78680.firebaseio.com",
+    "project_id": "oaky-78680",
+    "storage_bucket": "oaky-78680.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:220061954768:android:84bb0bee5b7413ff94a4d5",
+        "android_client_info": {
+          "package_name": "com.qrilt.oaky"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "220061954768-e9lf045ke8i7tt0fdi7h2k23d6jlkn7t.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBkPbUaAEkLUYcvAxQ90Rh336JJG_ngMCE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "220061954768-e9lf045ke8i7tt0fdi7h2k23d6jlkn7t.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
